@@ -41,6 +41,11 @@ interface InterfaceState {
 class RegisterPage extends Component<
     InterfaceProps,
     InterfaceState> {
+    constructor(props: InterfaceProps) {
+        super(props);
+        this.state = { ...RegisterPage.INITIAL_STATE };
+    }
+
     private static INITIAL_STATE = {
         email: "",
         error: null,
@@ -50,10 +55,7 @@ class RegisterPage extends Component<
     private static propKey(propertyName: string, value: any): object {
         return { [propertyName]: value };
     }
-    constructor(props: InterfaceProps) {
-        super(props);
-        this.state = { ...RegisterPage.INITIAL_STATE };
-    }
+
     private handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         const { email, password, username } = this.state;
@@ -100,7 +102,7 @@ class RegisterPage extends Component<
                         <Nav>
                             <Form inline>
                                 <Button type="button" className="register">
-                                    <GoRegister to="/">Login</GoRegister>
+                                    <GoRegister to={routes.SIGN_IN}>Login</GoRegister>
                                 </Button>
                             </Form>
                         </Nav>
@@ -160,14 +162,6 @@ class RegisterPage extends Component<
                                 Sign Up
                             </button>
                             {error && <p>{error.message}</p>}
-                            <Divider>
-                                or
-                            </Divider>
-                            <button className="btn btn-primary btn-block" type="button">
-                                <IMG width="20px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
-                            Login with Google
-                            </button>
-                            
                         </form>
                     </div>
                 </div>

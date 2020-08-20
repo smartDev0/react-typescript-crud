@@ -8,6 +8,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import * as routes from "./../../constants/routes";
 
 const H3 = styled.h3``;
 
@@ -34,14 +35,14 @@ class LoginPage extends Component {
           variant="dark"
           style={{ zIndex: 10 }}
         >
-          <Navbar.Brand href="">FunColl</Navbar.Brand>
+          <Navbar.Brand>FunColl</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto"></Nav>
             <Nav>
               <Form inline>
                 <Button type="button" className="register">
-                  <GoRegister to="register">Register</GoRegister>
+                  <GoRegister to={routes.SIGN_UP}>Register</GoRegister>
                 </Button>
               </Form>
             </Nav>
