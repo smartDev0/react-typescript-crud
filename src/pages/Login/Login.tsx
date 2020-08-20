@@ -158,7 +158,7 @@ class LoginPage extends Component<
               <Divider>
                 or
               </Divider>
-              <button className="btn btn-primary btn-block">
+              <button className="btn btn-primary btn-block" type="button" onClick={auth.signInWithGoogle}>
                 <IMG width="20px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
               Login with Google
             </button>
