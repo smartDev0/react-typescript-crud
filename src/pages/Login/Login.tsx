@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as routes from "./../../constants/routes";
-
+import { auth } from "../../firebase";
 const H3 = styled.h3``;
 
 const GoRegister = styled(Link)`
@@ -23,9 +23,62 @@ const Divider = styled.div`
 const IMG = styled.img`
 margin-bottom:3px; margin-right:5px
 `;
+interface InterfaceProps {
+  email?: string;
+  error?: any;
+  history?: any;
+  password?: string;
+}
 
-class LoginPage extends Component {
-  render() {
+interface InterfaceState {
+  email: string;
+  error: any;
+  password: string;
+}
+
+
+class LoginPage extends Component<
+  InterfaceProps,
+  InterfaceState
+  > {
+  
+  constructor(props: InterfaceProps) {
+    super(props);
+    this.state = { ...LoginPage.INITIAL_STATE };
+  }
+
+  private static INITIAL_STATE = {
+    email: "",
+    error: null,
+    password: ""
+  };
+
+  private static propKey(propertyName: string, value: any): object {
+    return { [propertyName]: value };
+  }
+
+  public onSubmit = (event: any) => {
+    event.preventDefault();
+    const { email, password } = this.state;
+    const { history } = this.props;
+    auth
+      .doSignInWithEmailAndPassword(email, password)
+      .then((res) => {
+        console.log('response:', res);
+        this.setState(() => ({ ...LoginPage.INITIAL_STATE }));
+        history.push(routes.HOME);
+      })
+      .catch(error => {
+        this.setState(LoginPage.propKey("error", error));
+      });
+
+
+  };
+
+  public render() {
+    const { email, password, error } = this.state;
+
+    const isInvalid = password === "" || email === "";
     return (
       <div>
         <Navbar
@@ -50,7 +103,7 @@ class LoginPage extends Component {
         </Navbar>
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <form>
+            <form onSubmit={event => this.onSubmit(event)}>
               <H3>Sign In</H3>
               <div className="form-group">
                 <label>Email address</label>
@@ -58,6 +111,8 @@ class LoginPage extends Component {
                   type="email"
                   className="form-control"
                   placeholder="Enter email"
+                  value={email}
+                  onChange={event => this.setStateWithEvent(event, "email")}
                 />
               </div>
               <div className="form-group">
@@ -66,6 +121,8 @@ class LoginPage extends Component {
                   type="password"
                   className="form-control"
                   placeholder="Enter password"
+                  value={password}
+                  onChange={event => this.setStateWithEvent(event, "password")}
                 />
               </div>
               <div className="form-group">
@@ -80,12 +137,13 @@ class LoginPage extends Component {
                 </label>
                 </div>
               </div>
-              <button type="submit" className="btn btn-primary btn-block">
+              <button type="submit" disabled={isInvalid} className="btn btn-primary btn-block">
                 Sign In
-            </button>
+              </button>
+              {error && <p>{error.message}</p>}
               <Divider>
                 or
-            </Divider>
+              </Divider>
               <button className="btn btn-primary btn-block">
                 <IMG width="20px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
               Login with Google
@@ -95,6 +153,10 @@ class LoginPage extends Component {
         </div>
       </div>
     );
+  }
+
+  private setStateWithEvent(event: any, columnType: string) {
+    this.setState(LoginPage.propKey(columnType, (event.target as any).value));
   }
 
 };
