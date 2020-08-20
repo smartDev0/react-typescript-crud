@@ -4,7 +4,6 @@ import {
     Navbar,
     Nav,
     Form,
-    FormControl,
     Button,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -17,14 +16,9 @@ const GoRegister = styled(Link)`
     color: white;
     text-decoration: none!important;
 `;
-const Divider = styled.div`
-    text-align:center;
-    padding: 5px 0
+const P = styled.p`
+color:red
 `;
-const IMG = styled.img`
-margin-bottom:3px; margin-right:5px
-`;
-
 interface InterfaceProps {
     email?: string;
     error?: any;
@@ -174,7 +168,7 @@ class RegisterPage extends Component<
                             <button type="submit" disabled={isInvalid} className="btn btn-primary btn-block">
                                 Sign Up
                             </button>
-                            {error && <p>{error.message}</p>}
+                            {error && <P>{error.message}</P>}
                         </form>
                     </div>
                 </div>

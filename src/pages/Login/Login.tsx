@@ -4,7 +4,6 @@ import {
   Navbar,
   Nav,
   Form,
-  FormControl,
   Button,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -24,6 +23,12 @@ const Divider = styled.div`
 const IMG = styled.img`
 margin-bottom:3px; margin-right:5px
 `;
+
+const P = styled.p`
+color:red
+`;
+
+
 interface InterfaceProps {
   email?: string;
   error?: any;
@@ -154,7 +159,7 @@ class LoginPage extends Component<
               <button type="submit" disabled={isInvalid} className="btn btn-primary btn-block">
                 Sign In
               </button>
-              {error && <p>{error.message}</p>}
+              {error && <P>{error.message}</P>}
               <Divider>
                 or
               </Divider>

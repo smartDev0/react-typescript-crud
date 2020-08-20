@@ -8,7 +8,7 @@ class HomePage extends Component {
         return (
             <div>
                 <Navigation />
-                <div>
+                <div className="container">
                     home
                 </div>
             </div>
