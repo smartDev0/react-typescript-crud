@@ -8,7 +8,7 @@ import {
     Button,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { auth, db } from "../../firebase";
+import { auth, db, firebase } from "../../firebase";
 import * as routes from "../../constants/routes";
 
 const H3 = styled.h3``;
@@ -45,7 +45,19 @@ class RegisterPage extends Component<
         super(props);
         this.state = { ...RegisterPage.INITIAL_STATE };
     }
+    public componentDidMount() {
+        firebase.auth.onAuthStateChanged((authUser: any) => {
+            authUser
+                ? this.Redirect()
+                : this.setState(() => ({
 
+                }));
+        });
+    }
+    public Redirect() {
+        const { history } = this.props;
+        history.push(routes.HOME);
+    }
     private static INITIAL_STATE = {
         email: "",
         error: null,
@@ -60,6 +72,7 @@ class RegisterPage extends Component<
         event.preventDefault();
         const { email, password, username } = this.state;
         const { history } = this.props;
+        console.log(history)
         auth
             .doCreateUserWithEmailAndPassword(email, password)
             .then((authUser: any) => {

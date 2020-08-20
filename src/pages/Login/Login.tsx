@@ -9,7 +9,8 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as routes from "./../../constants/routes";
-import { auth } from "../../firebase";
+import { auth, firebase} from "../../firebase";
+
 const H3 = styled.h3``;
 
 const GoRegister = styled(Link)`
@@ -55,6 +56,19 @@ class LoginPage extends Component<
 
   private static propKey(propertyName: string, value: any): object {
     return { [propertyName]: value };
+  }
+  public componentDidMount() {
+    firebase.auth.onAuthStateChanged((authUser: any) => {
+      authUser
+        ? this.Redirect()
+        : this.setState(() => ({ 
+
+         }));
+    });
+  }
+  public Redirect() {
+    const { history } = this.props;
+    history.push(routes.HOME);
   }
 
   public onSubmit = (event: any) => {
