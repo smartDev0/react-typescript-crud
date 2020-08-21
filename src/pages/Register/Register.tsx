@@ -66,7 +66,6 @@ class RegisterPage extends Component<
         event.preventDefault();
         const { email, password, username } = this.state;
         const { history } = this.props;
-        console.log(history)
         auth
             .doCreateUserWithEmailAndPassword(email, password)
             .then((authUser: any) => {
