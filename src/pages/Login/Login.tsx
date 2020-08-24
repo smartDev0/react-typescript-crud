@@ -4,7 +4,6 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import * as routes from "./../../constants/routes";
 import { auth, firebase } from "../../firebase";
 import Navigation from "../../components/Navigation/Navigation";

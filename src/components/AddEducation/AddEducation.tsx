@@ -30,14 +30,14 @@ class AddEducation extends Component {
         educationDeleteModalShow: false,
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         const name = `educations`;
         let educations = JSON.parse(localStorage.getItem(name) || '{}');
         educations = Array.isArray(educations) ? educations : [];
         this.setState({ educations });
     }
 
-    initailState = () => {
+    public initailState = () => {
         this.setState({
             educationId: '',
             educationFrom: null,

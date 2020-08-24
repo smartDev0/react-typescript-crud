@@ -29,14 +29,14 @@ class AddExperience extends Component {
         experienceDeleteModalShow: false,
     };
 
-    componentDidMount() {
+    public componentDidMount() {
         const name = `experiences`;
         let experiences = JSON.parse(localStorage.getItem(name) || '{}');
         experiences = Array.isArray(experiences) ? experiences : [];
         this.setState({ experiences });
     }
 
-    initailState = () => {
+    public initailState = () => {
         this.setState({
             experienceId: '',
             experienceFrom: null,

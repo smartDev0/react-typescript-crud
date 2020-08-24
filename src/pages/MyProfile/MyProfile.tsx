@@ -38,7 +38,7 @@ class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
 
   public componentDidMount() {
     firebase.auth.onAuthStateChanged(async (authUser: any) => {
-      if (authUser != null && authUser != undefined) {
+      if (authUser !== null && authUser !== undefined) {
         let token = await authUser.getIdToken();
         localStorage.setItem('token', token);
         this.setState({
