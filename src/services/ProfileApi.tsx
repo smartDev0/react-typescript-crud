@@ -49,8 +49,8 @@ export const deleteExperienceApi = (id: any) => {
     const name = `experiences`;
     let experiences = JSON.parse(localStorage.getItem(name) || '{}');
     experiences = Array.isArray(experiences) ? experiences : [];
-    for(var i=0; i<experiences.length; i++){
-        if(experiences[i].id === id) {
+    for (var i = 0; i < experiences.length; i++) {
+        if (experiences[i].id === id) {
             experiences.splice(i, 1);
         }
     }
@@ -75,8 +75,8 @@ export const editExperienceApi = (id: String) => {
     const name = `experiences`;
     let experiences = JSON.parse(localStorage.getItem(name) || '{}');
     experiences = Array.isArray(experiences) ? experiences : [];
-    for(var i=0; i<experiences.length; i++){
-        if(experiences[i].id === id) {
+    for (var i = 0; i < experiences.length; i++) {
+        if (experiences[i].id === id) {
             element = experiences[i];
         }
     }
@@ -96,8 +96,8 @@ export const updateExperienceApi = (experienceData: any) => {
     const name = `experiences`;
     let experiences = JSON.parse(localStorage.getItem(name) || '{}');
     experiences = Array.isArray(experiences) ? experiences : [];
-    for(var i=0; i<experiences.length; i++){
-        if(experiences[i].id === experienceData.id) {
+    for (var i = 0; i < experiences.length; i++) {
+        if (experiences[i].id === experienceData.id) {
             experiences[i].from = experienceData.from;
             experiences[i].to = experienceData.to;
             experiences[i].type = experienceData.type;
@@ -145,8 +145,8 @@ export const deleteEducationApi = (id: any) => {
     const name = `educations`;
     let educations = JSON.parse(localStorage.getItem(name) || '{}');
     educations = Array.isArray(educations) ? educations : [];
-    for(var i=0; i<educations.length; i++){
-        if(educations[i].id === id) {
+    for (var i = 0; i < educations.length; i++) {
+        if (educations[i].id === id) {
             educations.splice(i, 1);
         }
     }
@@ -171,8 +171,8 @@ export const editEducationApi = (id: String) => {
     const name = `educations`;
     let educations = JSON.parse(localStorage.getItem(name) || '{}');
     educations = Array.isArray(educations) ? educations : [];
-    for(var i=0; i<educations.length; i++){
-        if(educations[i].id === id) {
+    for (var i = 0; i < educations.length; i++) {
+        if (educations[i].id === id) {
             element = educations[i];
         }
     }
@@ -192,8 +192,8 @@ export const updateEducationApi = (educationData: any) => {
     const name = `educations`;
     let educations = JSON.parse(localStorage.getItem(name) || '{}');
     educations = Array.isArray(educations) ? educations : [];
-    for(var i=0; i<educations.length; i++){
-        if(educations[i].id === educationData.id) {
+    for (var i = 0; i < educations.length; i++) {
+        if (educations[i].id === educationData.id) {
             educations[i].from = educationData.from;
             educations[i].to = educationData.to;
             educations[i].type = educationData.type;

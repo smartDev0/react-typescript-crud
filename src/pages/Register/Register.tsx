@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import {
-    Form,
-    Button,
-} from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { auth, db, firebase } from "../../firebase";
 import * as routes from "../../constants/routes";
 

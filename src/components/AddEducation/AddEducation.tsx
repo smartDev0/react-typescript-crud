@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-
 import { Button, Form, Modal, Container, Col, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -53,7 +52,7 @@ class AddEducation extends Component {
     private educationSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         const { educationId, educationFrom, educationTo, educationType, educationInstitution, educationDescription } = this.state;
-        if(!educationId) {
+        if (!educationId) {
             const educationData = {
                 id: (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase(),
                 from: educationFrom,
@@ -65,12 +64,12 @@ class AddEducation extends Component {
             this.setState({
                 educationModalShow: false
             });
-    
+
             // Below code is being used with localStorage
             let response = addEducationApi(educationData);
             this.setState({ educations: response });
             this.initailState();
-    
+
             // Below code will be used with real backend
             // addEducationApi(educationData)
             //     .then((response: any) => {
@@ -92,12 +91,12 @@ class AddEducation extends Component {
             this.setState({
                 educationModalShow: false
             });
-    
+
             // Below code is being used with localStorage
             let response = updateEducationApi(educationData);
             this.setState({ educations: response });
             this.initailState();
-    
+
             // Below code will be used with real backend
             // udateEducationApi(educationData)
             //     .then((response: any) => {
@@ -145,8 +144,8 @@ class AddEducation extends Component {
         // Below code is being used with localStorage
         let response = editEducationApi(id);
         console.log(response)
-        if(response) {
-            this.setState({ 
+        if (response) {
+            this.setState({
                 educationId: response.id,
                 educationFrom: new Date(response.from),
                 educationTo: new Date(response.to),
@@ -162,15 +161,15 @@ class AddEducation extends Component {
         // editEducationApi(id)
         //     .then((response: any) => {
         //         console.log(response);
-                // if(response) {
-                //     this.setState({ 
-                //         educationFrom: new Date(response.from),
-                //         educationTo: new Date(response.to),
-                //         educationType: response.type,
-                //         educationInstitution: response.institution,
-                //         educationDescription: response.description,
-                //         educationModalShow: true,
-                //     });
+        // if(response) {
+        //     this.setState({ 
+        //         educationFrom: new Date(response.from),
+        //         educationTo: new Date(response.to),
+        //         educationType: response.type,
+        //         educationInstitution: response.institution,
+        //         educationDescription: response.description,
+        //         educationModalShow: true,
+        //     });
         // }
         //     })
         //     .catch((error: any) => {

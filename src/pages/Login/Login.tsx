@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import {
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import * as routes from "./../../constants/routes";
 import { auth, firebase } from "../../firebase";
-
 
 const H3 = styled.h3``;
 

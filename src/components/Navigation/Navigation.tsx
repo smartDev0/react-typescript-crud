@@ -6,29 +6,35 @@ import { firebase } from "../../firebase";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Logout from "./../Logout";
+
 const GoRegister = styled(Link)`
   color: white;
   text-decoration: none !important;
 `;
+
 const GoHome = styled(Link)`
   color: white;
   text-decoration: none;
   &:hover {
+    color: white;
     text-decoration: none;
   }
 `;
+
 const GoProfile = styled(Link)`
   color: white;
   text-decoration: none;
   &:hover {
+    color: white;
     text-decoration: none;
   }
 `;
+
 interface InterfaceProps {
   history?: any;
 }
 
-class Navigation extends Component<InterfaceProps & RouteComponentProps, {user: any}> {
+class Navigation extends Component<InterfaceProps & RouteComponentProps, { user: any }> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -46,10 +52,10 @@ class Navigation extends Component<InterfaceProps & RouteComponentProps, {user: 
 
   render() {
     const { user } = this.state;
-    const { location: {pathname} } = this.props;
+    const { location: { pathname } } = this.props;
     return (
       <>
-        {!!user ? <NavigationAuth /> : pathname === '/' ? <NavigationNonAuthLogin /> : <NavigationNonAuthRegister/> }
+        {!!user ? <NavigationAuth /> : pathname === '/' ? <NavigationNonAuthLogin /> : <NavigationNonAuthRegister />}
       </>
     );
   }
@@ -60,17 +66,17 @@ const NavigationAuth = () => (
     <Navbar.Brand>FunColl</Navbar.Brand>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
-    <Nav className="mr-auto">
+      <Nav className="mr-auto">
         <Nav.Link><GoHome to="home">Home</GoHome></Nav.Link>
         <Nav.Link><GoProfile to="profile">My profile</GoProfile></Nav.Link>
-    </Nav>
-    <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-      <Button variant="outline-info" className="mr-sm-2">
-        Search
+      </Nav>
+      <Form inline>
+        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+        <Button variant="outline-info" className="mr-sm-2">
+          Search
       </Button>
-      <Logout />
-    </Form>
+        <Logout />
+      </Form>
     </Navbar.Collapse>
   </Navbar>
 );

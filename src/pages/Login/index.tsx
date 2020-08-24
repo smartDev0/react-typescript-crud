@@ -1,6 +1,6 @@
 import * as React from "react";
 import { withRouter } from "react-router-dom";
-import  LoginPage  from "./Login";
+import LoginPage from "./Login";
 
 const SignInComponent = ({ history }: { [key: string]: any }) => (
     <div>

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-
 import { Button, Form, Container, Alert, Tabs, Tab, Col, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
@@ -21,9 +20,11 @@ const options = [
   { value: "strawberry", label: "Strawberry" },
   { value: "vanilla", label: "Vanilla" },
 ];
+
 interface InterfaceProps {
   history?: any;
 }
+
 class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
   state = {
     dob: null,
