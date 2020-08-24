@@ -7,7 +7,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { PlusCircle } from 'react-bootstrap-icons';
 import { Pencil } from 'react-bootstrap-icons';
 import { Trash } from 'react-bootstrap-icons';
-import { educationApi } from '../../services/ProfileApi';
+import { addEducationApi } from '../../services/ProfileApi';
+import { deleteEducationApi } from '../../services/ProfileApi';
+import { editEducationApi } from '../../services/ProfileApi';
+import { updateEducationApi } from '../../services/ProfileApi';
 
 
 const Label = styled.label`
@@ -16,143 +19,268 @@ const Label = styled.label`
 
 class AddEducation extends Component {
     state = {
-        education: [{}, {}],
+        educations: [],
+        educationId: '',
         educationFrom: null,
         educationTo: null,
         educationType: '',
         educationInstitution: '',
         educationDescription: '',
-        experienceModalShow: false,
-        experienceDeleteModalShow: false,
         educationModalShow: false,
         educationDeleteModalShow: false,
-    };
-
-    private educationSubmit = (): void => {
-        const { educationFrom, educationTo, educationType, educationInstitution, educationDescription } = this.state;
-        const educationData = {
-            from: educationFrom,
-            to: educationTo,
-            type: educationType,
-            institution: educationInstitution,
-            description: educationDescription,
-        }
-        this.setState({
-            educationModalShow: false
-        });
-
-        educationApi(educationData)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-        this.showAlert();
     }
 
-    showAlert = () => {
-        this.setState({ saveSuccessFlag: true });
-        let that = this;
-        setTimeout(function () {
-            that.setState({ saveSuccessFlag: false });
-        }, 2000);
+    componentDidMount() {
+        const name = `educations`;
+        let educations = JSON.parse(localStorage.getItem(name) || '{}');
+        educations = Array.isArray(educations) ? educations : [];
+        this.setState({ educations });
+    }
+
+    initailState = () => {
+        this.setState({
+            educationId: '',
+            educationFrom: null,
+            educationTo: null,
+            educationType: '',
+            educationInstitution: '',
+            educationDescription: '',
+            educationModalShow: false,
+            educationDeleteModalShow: false,
+        })
+    }
+
+    private educationSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+        event.preventDefault();
+        const { educationId, educationFrom, educationTo, educationType, educationInstitution, educationDescription } = this.state;
+        if(!educationId) {
+            const educationData = {
+                id: (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase(),
+                from: educationFrom,
+                to: educationTo,
+                type: educationType,
+                institution: educationInstitution,
+                description: educationDescription,
+            }
+            this.setState({
+                educationModalShow: false
+            });
+    
+            // Below code is being used with localStorage
+            let response = addEducationApi(educationData);
+            this.setState({ educations: response });
+            this.initailState();
+    
+            // Below code will be used with real backend
+            // addEducationApi(educationData)
+            //     .then((response: any) => {
+            //         console.log(response);
+            //         this.setState({educations: response})
+            //     })
+            //     .catch((error: any) => {
+            //         console.log(error);
+            //     });
+        } else {
+            const educationData = {
+                id: educationId,
+                from: educationFrom,
+                to: educationTo,
+                type: educationType,
+                institution: educationInstitution,
+                description: educationDescription,
+            }
+            this.setState({
+                educationModalShow: false
+            });
+    
+            // Below code is being used with localStorage
+            let response = updateEducationApi(educationData);
+            this.setState({ educations: response });
+            this.initailState();
+    
+            // Below code will be used with real backend
+            // udateEducationApi(educationData)
+            //     .then((response: any) => {
+            //         console.log(response);
+            //         this.setState({educations: response})
+            //     })
+            //     .catch((error: any) => {
+            //         console.log(error);
+            //     });
+        }
+    }
+
+    private static propKey(propertyName: string, value: any): object {
+        return { [propertyName]: value };
+    }
+
+    private setStateWithEvent(event: any, columnType: string) {
+        this.setState(AddEducation.propKey(columnType, (event.target as any).value));
+    }
+
+    toJSONLocal = (date: Date) => {
+        var local = new Date(date);
+        return local.toJSON().slice(0, 10);
+    }
+
+    deleteEducation = (id: String) => {
+        // Below code is being used with localStorage
+        let response = deleteEducationApi(id);
+        this.setState({ educations: response });
+        this.initailState();
+
+        // Below code will be used with real backend
+        // deleteEducationApi(id)
+        //     .then((response: any) => {
+        //         console.log(response);
+        //         this.setState({educations: response})
+        //     })
+        //     .catch((error: any) => {
+        //         console.log(error);
+        //     });
+        this.setState({ educationDeleteModalShow: false })
+    }
+
+    editEducation = (id: String) => {
+        // Below code is being used with localStorage
+        let response = editEducationApi(id);
+        console.log(response)
+        if(response) {
+            this.setState({ 
+                educationId: response.id,
+                educationFrom: new Date(response.from),
+                educationTo: new Date(response.to),
+                educationType: response.type,
+                educationInstitution: response.institution,
+                educationDescription: response.description,
+                educationModalShow: true,
+            });
+        }
+
+
+        // Below code will be used with real backend
+        // editEducationApi(id)
+        //     .then((response: any) => {
+        //         console.log(response);
+                // if(response) {
+                //     this.setState({ 
+                //         educationFrom: new Date(response.from),
+                //         educationTo: new Date(response.to),
+                //         educationType: response.type,
+                //         educationInstitution: response.institution,
+                //         educationDescription: response.description,
+                //         educationModalShow: true,
+                //     });
+        // }
+        //     })
+        //     .catch((error: any) => {
+        //         console.log(error);
+        //     });
     }
 
     render() {
         return (
             <>
                 <Modal show={this.state.educationModalShow} aria-labelledby="contained-modal-title-vcenter" onHide={() => this.setState({ educationModalShow: false })} style={{ marginTop: 100 }}>
-                    <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title-vcenter">
-                            Add Your Education
-                    </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="show-grid">
-                        <Container>
-                            <Row>
-                                <Col md={6}>
-                                    <Form.Group controlId="educationFrom">
-                                        <Label>From</Label>
-                                        <DatePicker
-                                            className="form-control"
-                                            selected={this.state.educationFrom}
-                                            onChange={(date) => this.setState({ educationFrom: date })}
-                                        />
-                                    </Form.Group>
-                                </Col>
-                                <Col md={6}>
-                                    <Form.Group controlId="educationTo">
-                                        <Label>To</Label>
-                                        <DatePicker
-                                            className="form-control"
-                                            selected={this.state.educationTo}
-                                            onChange={(date) => this.setState({ educationTo: date })}
-                                        />
-                                    </Form.Group>
-                                </Col>
+                    <Form onSubmit={this.educationSubmit}>
+                        <Modal.Header closeButton>
+                            <Modal.Title id="contained-modal-title-vcenter">
+                                Add Your Education
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body className="show-grid">
+                            <Container>
+                                <Row>
+                                    <Col md={6}>
+                                        <Form.Group controlId="educationFrom">
+                                            <Label>From</Label>
+                                            <DatePicker
+                                                className="form-control"
+                                                selected={this.state.educationFrom}
+                                                onChange={(date) => this.setState({ educationFrom: date })}
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={6}>
+                                        <Form.Group controlId="educationTo">
+                                            <Label>To</Label>
+                                            <DatePicker
+                                                className="form-control"
+                                                selected={this.state.educationTo}
+                                                onChange={(date) => this.setState({ educationTo: date })}
+                                            />
+                                        </Form.Group>
+                                    </Col>
 
-                                <Col md={6}>
-                                    <Form.Group controlId="educationType">
-                                        <Form.Label>Type</Form.Label>
-                                        <Form.Control as="select" onChange={(val) => this.setState({ educationType: val })}>
-                                            <option value="1">Course</option>
-                                            <option value="2">Certification</option>
-                                            <option value="3">Graduation</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                </Col>
-                                <Col md={6}>
-                                    <Form.Group controlId="educationInstitution">
-                                        <Form.Label>Institution</Form.Label>
-                                        <Form.Control type="text" placeholder="Enter institution" value={this.state.educationInstitution} onChange={(text) => this.setState({ educationInstitution: text })} />
-                                    </Form.Group>
-                                </Col>
-                                <Col md={12}>
-                                    <Form.Group controlId="educationDescription">
-                                        <Form.Label>Description</Form.Label>
-                                        <Form.Control as="textarea" rows={3} placeholder="Description" value={this.state.educationDescription} onChange={(text) => this.setState({ educationDescription: text })} />
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" type="submit" onClick={() => this.educationSubmit()}>Save</Button>
-                        <Button variant="secondary" onClick={() => this.setState({ educationModalShow: false })}>Close</Button>
-                    </Modal.Footer>
+                                    <Col md={6}>
+                                        <Form.Group controlId="educationType">
+                                            <Form.Label>Type</Form.Label>
+                                            <Form.Control as="select" onChange={(event) => this.setState({ educationType: event.target.value })}>
+                                                <option value="Course">Course</option>
+                                                <option value="Certification">Certification</option>
+                                                <option value="Graduation">Graduation</option>
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={6}>
+                                        <Form.Group controlId="education-Institution">
+                                            <Form.Label>Institution</Form.Label>
+                                            <Form.Control type="text" placeholder="Enter institution" value={this.state.educationInstitution} onChange={(event) => this.setStateWithEvent(event, 'educationInstitution')} />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={12}>
+                                        <Form.Group controlId="education-Description">
+                                            <Form.Label>Description</Form.Label>
+                                            <Form.Control as="textarea" rows={3} placeholder="Description" value={this.state.educationDescription} onChange={(event) => this.setStateWithEvent(event, 'educationDescription')} />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={12} hidden>
+                                        <Form.Group controlId="education-id">
+                                            <Form.Control type="text" value={this.state.educationId} onChange={(event) => console.log(event)} />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="primary" type="submit">Save</Button>
+                            <Button variant="secondary" onClick={() => this.setState({ educationModalShow: false })}>Close</Button>
+                        </Modal.Footer>
+                    </Form>
                 </Modal>
-                <Modal show={this.state.educationDeleteModalShow} onHide={() => this.setState({ educationDeleteModalShow: false })} style={{ marginTop: 100 }}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Delete Education</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>Are you sure to delete this education?</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.setState({ educationDeleteModalShow: false })}>
-                            Close
-                  </Button>
-                        <Button variant="primary" onClick={() => this.setState({ educationDeleteModalShow: false })}>
-                            Delete
-                  </Button>
-                    </Modal.Footer>
-                </Modal>
+
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <PlusCircle onClick={() => this.setState({ educationModalShow: true })} size={30} color="#007bff" style={{ cursor: 'pointer' }} />
                 </div>
-                {this.state.education.map((item, index) => (
-                    <Row key={index} style={{ marginBottom: 10, position: 'relative' }}>
-                        <Pencil size={25} color="#007bff" style={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer', zIndex: 1000 }} onClick={() => this.setState({ educationModalShow: true })} />
-                        <Trash size={25} color="#007bff" style={{ position: 'absolute', top: 50, right: 15, cursor: 'pointer', zIndex: 1000 }} onClick={() => this.setState({ educationDeleteModalShow: true })} />
-                        <Col md={1} style={{ color: 'red', fontWeight: 500 }}>Quest</Col>
-                        <Col md={11}>
-                            <div style={{ fontWeight: 500 }}>Course/Certification/Graduation</div>
-                            <div style={{ fontWeight: 500 }}>University of Some Place</div>
-                            <div style={{ fontWeight: 500 }}>Jul 2019 - Present: 1 year 2 mons</div>
-                            <div style={{ fontWeight: 500 }}>Ireland</div>
-                            <div style={{ color: 'grey' }}>Develop and maintain high availability and disaster recovery for a critical solution in the company. This solution contaions a REST API developed using C# deployed on Microsoft Azure, Azure Redis Cache and some Aure Functions projects that works with an Auzure Service Bus to control our events flow and integration with third party application. Help the company to engage with the best agile practices using Scrum</div>
-                        </Col>
-                    </Row>
+                {this.state.educations.map((item, index) => (
+                    <div key={index}>
+                        <Row style={{ marginBottom: 10, position: 'relative' }}>
+                            <Pencil size={25} color="#007bff" style={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer', zIndex: 1000 }} onClick={() => this.editEducation(item['id'])} />
+                            <Trash size={25} color="#007bff" style={{ position: 'absolute', top: 50, right: 15, cursor: 'pointer', zIndex: 1000 }} onClick={() => this.setState({ educationDeleteModalShow: true })} />
+                            <Col md={1} style={{ color: 'red', fontWeight: 500 }}>Quest</Col>
+                            <Col md={11}>
+                                <div style={{ fontWeight: 500 }}>{item['type']}</div>
+                                <div style={{ fontWeight: 500 }}>{item['institution']}</div>
+                                <div style={{ fontWeight: 500 }}>{this.toJSONLocal(item['from'])} ~ {this.toJSONLocal(item['to'])}</div>
+                                <div style={{ fontWeight: 500 }}>Ireland</div>
+                                <div style={{ color: 'grey' }}>{item['description']}</div>
+                            </Col>
+                        </Row>
+                        <Modal show={this.state.educationDeleteModalShow} onHide={() => this.setState({ educationDeleteModalShow: false })} style={{ marginTop: 100 }}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Delete Education</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>Are you sure to delete this education?</Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={() => this.setState({ educationDeleteModalShow: false })}>
+                                    Close
+                                  </Button>
+                                <Button variant="primary" onClick={() => this.deleteEducation(item['id'])}>
+                                    Delete
+                                  </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </div>
                 ))
                 }
             </>
