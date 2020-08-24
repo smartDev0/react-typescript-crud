@@ -92,7 +92,7 @@ class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
   render() {
     return (
       <div>
-        <Navigation />
+        {/* <Navigation /> */}
         <br></br>
         <Container>
           <Alert variant="success" show={this.state.saveSuccessFlag}>

@@ -94,7 +94,7 @@ class LoginPage extends Component<
     const isInvalid = password === "" || email === "";
     return (
       <div>
-        <Navigation />
+        {/* <Navigation /> */}
         <div className="auth-wrapper">
           <div className="auth-inner">
             <H3>Sign In</H3>

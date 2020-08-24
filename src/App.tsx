@@ -11,20 +11,26 @@ import HomePage from './pages/Home/Home';
 import MyProfile from './pages/MyProfile/MyProfile';
 
 import "./App.css";
-class AppComponent extends React.Component {
+import Navigation from "./components/Navigation/Navigation";
+class App extends React.Component {
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route exact path={routes.SIGN_IN} component={LoginPage} />
-          <Route path={routes.SIGN_UP} component={RegisterPage} />
-          <Route path={routes.HOME} component={HomePage} />
-          <Route path={routes.PROFILE} component={MyProfile} />
-        </Switch>
-      </Router>
+      <>
+        
+        <Router>
+          <Navigation />
+          <Switch>
+            <Route exact path={routes.SIGN_IN} component={LoginPage} />
+            <Route path={routes.SIGN_UP} component={RegisterPage} />
+            <Route path={routes.HOME} component={HomePage} />
+            <Route path={routes.PROFILE} component={MyProfile} />
+          </Switch>
+        </Router>
+        </>
+
     );
   }
 
 }
 
-export const App = withAuthentication(AppComponent);
+export default App;

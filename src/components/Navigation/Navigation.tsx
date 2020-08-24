@@ -2,51 +2,59 @@ import React, { Component } from "react";
 import * as routes from "../../constants/routes";
 import styled from "styled-components";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
-import { firebase } from "../../firebase";
+import { auth, firebase } from "../../firebase";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { AuthUserContext } from "../../firebase/AuthUserContext";
 import { Link } from "react-router-dom";
 import Logout from "./../Logout";
-
 const GoRegister = styled(Link)`
   color: white;
   text-decoration: none !important;
 `;
-
 interface InterfaceProps {
   history?: any;
 }
 
-class Navigation extends Component<InterfaceProps & RouteComponentProps> {
-
-  public componentDidMount() {
-    firebase.auth.onAuthStateChanged((authUser: any) => {
-      authUser
-        ? this.Redirect()
-        : this.setState(() => ({
-
-        }));
-    });
+class Navigation extends Component<InterfaceProps & RouteComponentProps, {user: any}> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      user: null,
+    }
   }
 
-  public Redirect() {
+  componentDidMount() {
+    firebase.auth.onAuthStateChanged((authUser) => {
+      this.setState({ user: authUser });
+    })
+  }
+
+  Redirect() {
   }
 
   render() {
-    const { location } = this.props;
+    const { user } = this.state;
+    const { location: {pathname} } = this.props;
 
     return (
-      <AuthUserContext.Consumer>
-        {(authUser) =>
-          authUser ? (
-            <NavigationAuth />
-          ) : location.pathname === "/" ? (
-            <NavigationNonAuthLogin />
-          ) : (
+      // <AuthUserContext.Consumer>
+      <>
+        {!!user ? <NavigationAuth /> : pathname === '/' ? <NavigationNonAuthLogin /> : <NavigationNonAuthRegister/> }
+        {/* {
+          firebase.auth.onAuthStateChanged((authUser: any) => {
+            authUser
+              ? (
+                <NavigationAuth />
+              ) : location.pathname == "/" ? (
+                <NavigationNonAuthLogin />
+              ) : (
                 <NavigationNonAuthRegister />
               )
-        }
-      </AuthUserContext.Consumer>
+          })
+        } */}
+        
+        </>
+      // </AuthUserContext.Consumer>
     );
   }
 }
@@ -56,17 +64,17 @@ const NavigationAuth = () => (
     <Navbar.Brand>FunColl</Navbar.Brand>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
-      <Nav className="mr-auto">
-        <Nav.Link href={routes.HOME}>Home</Nav.Link>
-        <Nav.Link href={routes.PROFILE}>My profile</Nav.Link>
-      </Nav>
-      <Form inline>
-        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-        <Button variant="outline-info" className="mr-sm-2">
-          Search
+    <Nav className="mr-auto">
+      <Nav.Link href="home">Home</Nav.Link>
+      <Nav.Link href="profile">My profile</Nav.Link>
+    </Nav>
+    <Form inline>
+      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+      <Button variant="outline-info" className="mr-sm-2">
+        Search
       </Button>
-        <Logout />
-      </Form>
+      <Logout />
+    </Form>
     </Navbar.Collapse>
   </Navbar>
 );

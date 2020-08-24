@@ -94,7 +94,7 @@ class RegisterPage extends Component<
             username === "";
         return (
             <div>
-                <Navigation />
+                {/* <Navigation /> */}
                 <div className="auth-wrapper">
                     <div className="auth-inner">
                         <form onSubmit={this.handleSubmit}>

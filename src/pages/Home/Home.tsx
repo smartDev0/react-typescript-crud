@@ -5,7 +5,7 @@ class HomePage extends Component {
     render() {
         return (
             <div>
-                <Navigation />
+                {/* <Navigation /> */}
                 <div className="container">
                     home
                 </div>
