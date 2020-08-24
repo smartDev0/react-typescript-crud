@@ -14,6 +14,7 @@ const Divider = styled.div`
     text-align:center;
     padding: 5px 0
 `;
+
 const IMG = styled.img`
 margin-bottom:3px; margin-right:5px
 `;
@@ -56,6 +57,7 @@ class LoginPage extends Component<
   private static propKey(propertyName: string, value: any): object {
     return { [propertyName]: value };
   }
+
   public componentDidMount() {
     firebase.auth.onAuthStateChanged((authUser: any) => {
       authUser
@@ -65,6 +67,7 @@ class LoginPage extends Component<
         }));
     });
   }
+
   public Redirect() {
     const { history } = this.props;
     history.push(routes.HOME);
@@ -84,13 +87,10 @@ class LoginPage extends Component<
       .catch(error => {
         this.setState(LoginPage.propKey("error", error));
       });
-
-
   };
 
   public render() {
     const { email, password, error } = this.state;
-
     const isInvalid = password === "" || email === "";
     return (
       <div>

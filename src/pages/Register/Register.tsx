@@ -13,6 +13,7 @@ const H3 = styled.h3``;
 const P = styled.p`
 color:red
 `;
+
 interface InterfaceProps {
     email?: string;
     error?: any;
@@ -20,12 +21,14 @@ interface InterfaceProps {
     password?: string;
     username?: string;
 }
+
 interface InterfaceState {
     email: string;
     error: any;
     password: string;
     username: string;
 }
+
 class RegisterPage extends Component<
     InterfaceProps,
     InterfaceState> {
