@@ -39,6 +39,7 @@ class RegisterPage extends Component<
         super(props);
         this.state = { ...RegisterPage.INITIAL_STATE };
     }
+
     public componentDidMount() {
         firebase.auth.onAuthStateChanged((authUser: any) => {
             authUser
@@ -48,16 +49,19 @@ class RegisterPage extends Component<
                 }));
         });
     }
+
     public Redirect() {
         const { history } = this.props;
         history.push(routes.HOME);
     }
+
     private static INITIAL_STATE = {
         email: "",
         error: null,
         password: "",
         username: ""
     };
+
     private static propKey(propertyName: string, value: any): object {
         return { [propertyName]: value };
     }
@@ -127,7 +131,7 @@ class RegisterPage extends Component<
                                     name="username"
                                     required
                                     // value={this.state.username}
-                                    onChange={e=> this.setState({username: e.target.value})}
+                                    onChange={e => this.setState({ username: e.target.value })}
                                 />
                             </div>
                             <div className="form-group">
