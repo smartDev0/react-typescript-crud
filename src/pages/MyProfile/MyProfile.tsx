@@ -11,6 +11,7 @@ import AddExperience from '../../components/AddExperience/AddExperience';
 import AddEducation from '../../components/AddEducation/AddEducation';
 import { meApi } from '../../services/ProfileApi';
 import { skillsApi } from '../../services/ProfileApi';
+import { RouteComponentProps } from "react-router-dom";
 
 const Label = styled.label`
   width:100%
@@ -21,8 +22,10 @@ const options = [
   { value: "strawberry", label: "Strawberry" },
   { value: "vanilla", label: "Vanilla" },
 ];
-
-class MyProfile extends Component {
+interface InterfaceProps {
+  history?: any;
+}
+class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
   state = {
     dob: null,
     username: '',
@@ -35,12 +38,16 @@ class MyProfile extends Component {
 
   public componentDidMount() {
     firebase.auth.onAuthStateChanged(async (authUser: any) => {
-      let token = await authUser.getIdToken();
-      localStorage.setItem('token', token);
-      this.setState({
-        username: authUser.displayName,
-        email: authUser.email,
-      });
+      if (authUser != null && authUser != undefined) {
+        let token = await authUser.getIdToken();
+        localStorage.setItem('token', token);
+        this.setState({
+          username: authUser.displayName,
+          email: authUser.email,
+        });
+      } else {
+        this.props.history.push("/")
+      }
     });
   }
 
@@ -70,7 +77,6 @@ class MyProfile extends Component {
 
   handleSkillsChange = (selectedOption: any) => {
     this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
   }
 
   saveSkills = () => {

@@ -1,21 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import {
-    Navbar,
-    Nav,
     Form,
     Button,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { auth, db, firebase } from "../../firebase";
 import * as routes from "../../constants/routes";
+import Navigation from "../../components/Navigation/Navigation";
 
 const H3 = styled.h3``;
 
-const GoRegister = styled(Link)`
-    color: white;
-    text-decoration: none!important;
-`;
 const P = styled.p`
 color:red
 `;
@@ -73,7 +67,6 @@ class RegisterPage extends Component<
         auth
             .doCreateUserWithEmailAndPassword(email, password)
             .then((authUser: any) => {
-                console.log('user:', authUser)
                 // Create a user in your own accessible Firebase Database too
                 db.doCreateUser(authUser.user.uid, username, email)
                     .then(() => {
@@ -98,79 +91,33 @@ class RegisterPage extends Component<
             username === "";
         return (
             <div>
-                <Navbar
-                    collapseOnSelect
-                    expand="lg"
-                    bg="dark"
-                    variant="dark"
-                    style={{ zIndex: 10 }}
-                >
-                    <Navbar.Brand href="">FunColl</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="mr-auto"></Nav>
-                        <Nav>
-                            <Form inline>
-                                <Button type="button" className="register">
-                                    <GoRegister to={routes.SIGN_IN}>Login</GoRegister>
-                                </Button>
-                            </Form>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Navbar>
+                <Navigation />
                 <div className="auth-wrapper">
                     <div className="auth-inner">
                         <form onSubmit={this.handleSubmit}>
                             <H3>Sign Up</H3>
-                            <div className="form-group">
-                                <label>User name</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter user name"
-                                    name="username"
-                                    required
-                                    // value={this.state.username}
-                                    onChange={e => this.setState({ username: e.target.value })}
+                            <Form.Group controlId="username">
+                                <Form.Label>User name</Form.Label>
+                                <Form.Control type="text" placeholder="Enter user name" value={this.state.username} onChange={event => this.setStateWithEvent(event, "username")} />
+                            </Form.Group>
+                            <Form.Group controlId="Email">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" value={this.state.email} onChange={event => this.setStateWithEvent(event, "email")} />
+                            </Form.Group>
+                            <Form.Group controlId="Password">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control type="password" placeholder="Enter password" value={this.state.password} onChange={event => this.setStateWithEvent(event, "password")} />
+                            </Form.Group>
+                            <Form.Group controlId="RememberMe">
+                                <Form.Check
+                                    type="checkbox"
+                                    id="customCheck1"
+                                    label="Remember me"
                                 />
-                            </div>
-                            <div className="form-group">
-                                <label>Email address</label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    placeholder="Enter email"
-                                    name="email"
-                                    required
-                                    onChange={e => this.setState({ email: e.target.value })}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Password</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    placeholder="Enter password"
-                                    name="password"
-                                    required
-                                    onChange={e => this.setState({ password: e.target.value })}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <div className="custom-control custom-checkbox">
-                                    <input
-                                        type="checkbox"
-                                        className="custom-control-input"
-                                        id="customCheck1"
-                                    />
-                                    <label className="custom-control-label" htmlFor="customCheck1">
-                                        Remember me
-                                    </label>
-                                </div>
-                            </div>
-                            <button type="submit" disabled={isInvalid} className="btn btn-primary btn-block">
+                            </Form.Group>
+                            <Button type="submit" disabled={isInvalid} className="btn btn-primary btn-block">
                                 Sign Up
-                            </button>
+                            </Button>
                             {error && <P>{error.message}</P>}
                         </form>
                     </div>

@@ -1,21 +1,16 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import {
-  Navbar,
-  Nav,
   Form,
   Button,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as routes from "./../../constants/routes";
 import { auth, firebase } from "../../firebase";
+import Navigation from "../../components/Navigation/Navigation";
 
 const H3 = styled.h3``;
 
-const GoRegister = styled(Link)`
-    color: white;
-    text-decoration: none!important;
-`;
 const Divider = styled.div`
     text-align:center;
     padding: 5px 0
@@ -100,26 +95,7 @@ class LoginPage extends Component<
     const isInvalid = password === "" || email === "";
     return (
       <div>
-        <Navbar
-          collapseOnSelect
-          expand="lg"
-          bg="dark"
-          variant="dark"
-          style={{ zIndex: 10 }}
-        >
-          <Navbar.Brand>FunColl</Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto"></Nav>
-            <Nav>
-              <Form inline>
-                <Button type="button" className="register">
-                  <GoRegister to={routes.SIGN_UP}>Register</GoRegister>
-                </Button>
-              </Form>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+        <Navigation />
         <div className="auth-wrapper">
           <div className="auth-inner">
             <H3>Sign In</H3>
