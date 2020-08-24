@@ -2,8 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route  } from "react-router-dom";
 
 import * as routes from "./constants/routes";
-import { withAuthentication } from "./firebase/withAuthentication";
-
 
 import LoginPage from "./pages/Login/Login";
 import RegisterPage from "./pages/Register/Register";

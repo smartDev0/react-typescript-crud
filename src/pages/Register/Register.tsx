@@ -6,7 +6,6 @@ import {
 } from "react-bootstrap";
 import { auth, db, firebase } from "../../firebase";
 import * as routes from "../../constants/routes";
-import Navigation from "../../components/Navigation/Navigation";
 
 const H3 = styled.h3``;
 
@@ -94,7 +93,6 @@ class RegisterPage extends Component<
             username === "";
         return (
             <div>
-                {/* <Navigation /> */}
                 <div className="auth-wrapper">
                     <div className="auth-inner">
                         <form onSubmit={this.handleSubmit}>

@@ -6,7 +6,7 @@ import {
 } from "react-bootstrap";
 import * as routes from "./../../constants/routes";
 import { auth, firebase } from "../../firebase";
-import Navigation from "../../components/Navigation/Navigation";
+
 
 const H3 = styled.h3``;
 
@@ -63,7 +63,6 @@ class LoginPage extends Component<
       authUser
         ? this.Redirect()
         : this.setState(() => ({
-
         }));
     });
   }

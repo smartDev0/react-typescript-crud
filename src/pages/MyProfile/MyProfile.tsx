@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import Navigation from "./../../components/Navigation/Navigation";
 import { Button, Form, Container, Alert, Tabs, Tab, Col, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
@@ -36,7 +35,7 @@ class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
     saveSuccessFlag: false
   };
 
-  public componentDidMount() {
+  componentDidMount() {
     firebase.auth.onAuthStateChanged(async (authUser: any) => {
       if (authUser !== null && authUser !== undefined) {
         let token = await authUser.getIdToken();
@@ -92,7 +91,6 @@ class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
   render() {
     return (
       <div>
-        {/* <Navigation /> */}
         <br></br>
         <Container>
           <Alert variant="success" show={this.state.saveSuccessFlag}>
