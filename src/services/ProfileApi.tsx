@@ -5,29 +5,20 @@ const httpHeaders = { headers: { 'Authorization': 'Bearer ' + localStorage.getIt
 
 
 export const meApi = (user: interfaces.User) => {
-    console.log(httpHeaders);
-    return axios.post(`${process.env.REACT_APP_SERVER_API}/saveMe`, {
-        username: user.username,
-        email: user.email,
-        dob: user.dob,
-        bio: user.bio,
-    }, httpHeaders)
-        .then(res => {
-            return "Success"
-        })
+    const name = `me`;
+    localStorage.removeItem(name);
+    localStorage.setItem(name, JSON.stringify(user));
 }
 
-export const skillsApi = (skills: Array<String>) => {
-    return axios.post(`${process.env.REACT_APP_SERVER_API}/saveSkills`, {
-        skills: skills
-    }, httpHeaders)
-        .then(res => {
-            return "Success"
-        })
+export const skillsApi = (skillsData: any) => {
+    const name = `skills`;
+    localStorage.removeItem(name);
+    localStorage.setItem(name, JSON.stringify(skillsData));
+
+    return skillsData;
 }
 
 export const addExperienceApi = (experienceData: interfaces.Experience) => {
-    // Below code is being used with localStorage
     const name = `experiences`;
     let experiences = JSON.parse(localStorage.getItem(name) || '{}');
     experiences = Array.isArray(experiences) ? experiences : [];
@@ -36,19 +27,10 @@ export const addExperienceApi = (experienceData: interfaces.Experience) => {
     localStorage.setItem(name, JSON.stringify(experiences));
 
     return experiences;
-
-    // Below code will be used with real backend
-    // return axios.post(`${process.env.REACT_APP_SERVER_API}/addExperience`, {
-    //     experienceData: experienceData
-    // }, httpHeaders)
-    //     .then(res => {
-    //         return "Success"
-    //     })
 }
 
 export const deleteExperienceApi = (id: String) => {
 
-    // Below code is being used with localStorage
     const name = `experiences`;
     let experiences = JSON.parse(localStorage.getItem(name) || '{}');
     experiences = Array.isArray(experiences) ? experiences : [];
@@ -61,19 +43,10 @@ export const deleteExperienceApi = (id: String) => {
     localStorage.setItem(name, JSON.stringify(experiences));
 
     return experiences;
-
-    // Below code will be used with real backend
-    // return axios.post(`${process.env.REACT_APP_SERVER_API}/deleteExperienc`, {
-    //     id: id
-    // }, httpHeaders)
-    //     .then(res => {
-    //         return "Success"
-    //     })
 }
 
 export const editExperienceApi = (id: String) => {
 
-    // Below code is being used with localStorage
     let element = null;
     const name = `experiences`;
     let experiences = JSON.parse(localStorage.getItem(name) || '{}');
@@ -85,17 +58,10 @@ export const editExperienceApi = (id: String) => {
     }
 
     return element;
-
-    // Below code will be used with real backend
-    // return axios.get(`${process.env.REACT_APP_SERVER_API}/editExperience/${id}`, httpHeaders)
-    //     .then(res => {
-    //         return "Success"
-    //     })
 }
 
 export const updateExperienceApi = (experienceData: interfaces.Experience) => {
 
-    // Below code is being used with localStorage
     const name = `experiences`;
     let experiences = JSON.parse(localStorage.getItem(name) || '{}');
     experiences = Array.isArray(experiences) ? experiences : [];
@@ -111,19 +77,10 @@ export const updateExperienceApi = (experienceData: interfaces.Experience) => {
     localStorage.setItem(name, JSON.stringify(experiences));
 
     return experiences;
-
-    // Below code will be used with real backend
-    // return axios.put(`${process.env.REACT_APP_SERVER_API}/updateExperience`, {
-    //     experienceData: experienceData
-    // }, httpHeaders)
-    //     .then(res => {
-    //         return "Success"
-    //     })
 }
 
 export const addEducationApi = (educationData: interfaces.Education) => {
 
-    // Below code is being used with localStorage
     const name = `educations`;
     let educations = JSON.parse(localStorage.getItem(name) || '{}');
     educations = Array.isArray(educations) ? educations : [];
@@ -132,19 +89,10 @@ export const addEducationApi = (educationData: interfaces.Education) => {
     localStorage.setItem(name, JSON.stringify(educations));
 
     return educations;
-
-    // Below code will be used with real backend
-    // return axios.post(`${process.env.REACT_APP_SERVER_API}/addEducation`, {
-    //     educationData: educationData
-    // }, httpHeaders)
-    //     .then(res => {
-    //         return "Success"
-    //     })
 }
 
 export const deleteEducationApi = (id: String) => {
 
-    // Below code is being used with localStorage
     const name = `educations`;
     let educations = JSON.parse(localStorage.getItem(name) || '{}');
     educations = Array.isArray(educations) ? educations : [];
@@ -157,19 +105,10 @@ export const deleteEducationApi = (id: String) => {
     localStorage.setItem(name, JSON.stringify(educations));
 
     return educations;
-
-    // Below code will be used with real backend
-    // return axios.post(`${process.env.REACT_APP_SERVER_API}/deleteEducation`, {
-    //     id: id
-    // }, httpHeaders)
-    //     .then(res => {
-    //         return "Success"
-    //     })
 }
 
 export const editEducationApi = (id: String) => {
 
-    // Below code is being used with localStorage
     let element = null;
     const name = `educations`;
     let educations = JSON.parse(localStorage.getItem(name) || '{}');
@@ -181,17 +120,10 @@ export const editEducationApi = (id: String) => {
     }
 
     return element;
-
-    // Below code will be used with real backend
-    // return axios.get(`${process.env.REACT_APP_SERVER_API}/editEducation/${id}`, httpHeaders)
-    //     .then(res => {
-    //         return "Success"
-    //     })
 }
 
 export const updateEducationApi = (educationData: interfaces.Education) => {
 
-    // Below code is being used with localStorage
     const name = `educations`;
     let educations = JSON.parse(localStorage.getItem(name) || '{}');
     educations = Array.isArray(educations) ? educations : [];
@@ -207,12 +139,32 @@ export const updateEducationApi = (educationData: interfaces.Education) => {
     localStorage.setItem(name, JSON.stringify(educations));
 
     return educations;
+}
 
-    // Below code will be used with real backend
-    // return axios.put(`${process.env.REACT_APP_SERVER_API}/updateEducation`, {
-    //     educationData: educationData
-    // }, httpHeaders)
-    //     .then(res => {
-    //         return "Success"
-    //     })
+export const wholeSaveApi = () => {
+    let me = JSON.parse(localStorage.getItem('me') || '{}');
+    let experiences = JSON.parse(localStorage.getItem('experiences') || '{}');
+    experiences = Array.isArray(experiences) ? experiences : [];
+    let educations = JSON.parse(localStorage.getItem('educations') || '{}');
+    educations = Array.isArray(educations) ? educations : [];
+    let skills = JSON.parse(localStorage.getItem('skills') || '{}');
+    skills = Array.isArray(skills) ? skills : [];
+    let wholeData = null;
+    wholeData =
+    {
+        "fullName": me.username,
+        "dateOfBirth": me.dob,
+        "uid": me.id,
+        "email": me.email,
+        "bio": me.bio,
+        "experience": experiences,
+        "educations": educations,
+        "skills": skills
+    }
+    return axios.post(`${process.env.REACT_APP_SERVER_API}/wholeSave`, {
+        wholeData: wholeData
+    }, httpHeaders)
+        .then(res => {
+            return "Success"
+        })
 }

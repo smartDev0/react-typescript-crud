@@ -64,20 +64,10 @@ class AddEducation extends Component {
                 educationModalShow: false
             });
 
-            // Below code is being used with localStorage
             let response = addEducationApi(educationData);
             this.setState({ educations: response });
             this.initailState();
 
-            // Below code will be used with real backend
-            // addEducationApi(educationData)
-            //     .then((response: Array<interfaces.Education>) => {
-            //         console.log(response);
-            //         this.setState({educations: response})
-            //     })
-            //     .catch((error: any) => {
-            //         console.log(error);
-            //     });
         } else {
             const educationData = {
                 id: educationId,
@@ -91,20 +81,10 @@ class AddEducation extends Component {
                 educationModalShow: false
             });
 
-            // Below code is being used with localStorage
             let response = updateEducationApi(educationData);
             this.setState({ educations: response });
             this.initailState();
 
-            // Below code will be used with real backend
-            // udateEducationApi(educationData)
-            //     .then((response: Array<interfaces.Education>) => {
-            //         console.log(response);
-            //         this.setState({educations: response})
-            //     })
-            //     .catch((error: any) => {
-            //         console.log(error);
-            //     });
         }
     }
 
@@ -122,27 +102,14 @@ class AddEducation extends Component {
     }
 
     deleteEducation = (id: String) => {
-        // Below code is being used with localStorage
         let response = deleteEducationApi(id);
         this.setState({ educations: response });
         this.initailState();
-
-        // Below code will be used with real backend
-        // deleteEducationApi(id)
-        //     .then((response: Array<interfaces.Education>) => {
-        //         console.log(response);
-        //         this.setState({educations: response})
-        //     })
-        //     .catch((error: any) => {
-        //         console.log(error);
-        //     });
         this.setState({ educationDeleteModalShow: false })
     }
 
     editEducation = (id: String) => {
-        // Below code is being used with localStorage
         let response = editEducationApi(id);
-        console.log(response)
         if (response) {
             this.setState({
                 educationId: response.id,
@@ -154,26 +121,6 @@ class AddEducation extends Component {
                 educationModalShow: true,
             });
         }
-
-
-        // Below code will be used with real backend
-        // editEducationApi(id)
-        //     .then((response: Education) => {
-        //         console.log(response);
-        // if(response) {
-        //     this.setState({ 
-        //         educationFrom: new Date(response.from),
-        //         educationTo: new Date(response.to),
-        //         educationType: response.type,
-        //         educationInstitution: response.institution,
-        //         educationDescription: response.description,
-        //         educationModalShow: true,
-        //     });
-        // }
-        //     })
-        //     .catch((error: any) => {
-        //         console.log(error);
-        //     });
     }
 
     render() {

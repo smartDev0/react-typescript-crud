@@ -65,20 +65,9 @@ class AddExperience extends Component {
                 experienceModalShow: false
             });
 
-            // Below code is being used with localStorage
             let response = addExperienceApi(experienceData);
             this.setState({ experiences: response });
             this.initailState();
-
-            // Below code will be used with real backend
-            // addExperienceApi(experienceData)
-            //     .then((response: Array<interfaces.Experience>) => {
-            //         console.log(response);
-            //         this.setState({experiences: response})
-            //     })
-            //     .catch((error: any) => {
-            //         console.log(error);
-            //     });
         } else {
             const experienceData = {
                 id: experienceId,
@@ -92,20 +81,9 @@ class AddExperience extends Component {
                 experienceModalShow: false
             });
 
-            // Below code is being used with localStorage
             let response = updateExperienceApi(experienceData);
             this.setState({ experiences: response });
             this.initailState();
-
-            // Below code will be used with real backend
-            // udateexperienceApi(experienceData)
-            //     .then((response: Array<interfaces.Experience>) => {
-            //         console.log(response);
-            //         this.setState({experiences: response})
-            //     })
-            //     .catch((error: any) => {
-            //         console.log(error);
-            //     });
         }
     }
 
@@ -123,25 +101,13 @@ class AddExperience extends Component {
     }
 
     deleteExperience = (id: String) => {
-        // Below code is being used with localStorage
         let response = deleteExperienceApi(id);
         this.setState({ experiences: response });
         this.initailState();
-
-        // Below code will be used with real backend
-        // deleteExperienceApi(id)
-        //     .then((response: Array<interfaces.Experience>) => {
-        //         console.log(response);
-        //         this.setState({experiences: response})
-        //     })
-        //     .catch((error: any) => {
-        //         console.log(error);
-        //     });
         this.setState({ experienceDeleteModalShow: false })
     }
 
     editExperience = (id: String) => {
-        // Below code is being used with localStorage
         let response = editExperienceApi(id);
         if (response) {
             this.setState({
@@ -154,26 +120,6 @@ class AddExperience extends Component {
                 experienceModalShow: true,
             });
         }
-
-
-        // Below code will be used with real backend
-        // editExperienceApi(id)
-        //     .then((response: Experience) => {
-        //         console.log(response);
-        // if(response) {
-        //     this.setState({ 
-        //         experienceFrom: new Date(response.from),
-        //         experienceTo: new Date(response.to),
-        //         experienceCompany: response.company,
-        //         experiencePosition: response.position,
-        //         experienceDescription: response.description,
-        //         experienceModalShow: true,
-        //     });
-        // }
-        //     })
-        //     .catch((error: any) => {
-        //         console.log(error);
-        //     });
     }
 
     render() {
@@ -247,17 +193,19 @@ class AddExperience extends Component {
                     <PlusCircle onClick={() => this.setState({ experienceModalShow: true })} size={30} color="#007bff" style={{ cursor: 'pointer' }} />
                 </div>
                 {this.state.experiences.map((item, index) => (
-                    <Row key={index} style={{ marginBottom: 10, position: 'relative' }}>
-                        <Pencil size={25} color="#007bff" style={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer', zIndex: 1000 }} onClick={() => this.editExperience(item['id'])} />
-                        <Trash size={25} color="#007bff" style={{ position: 'absolute', top: 50, right: 15, cursor: 'pointer', zIndex: 1000 }} onClick={() => this.setState({ experienceDeleteModalShow: true })} />
-                        <Col md={1} style={{ color: 'red', fontWeight: 500 }}>Quest</Col>
-                        <Col md={11}>
-                            <div style={{ fontWeight: 500 }}>{item['position']}</div>
-                            <div style={{ fontWeight: 500 }}>{item['company']}</div>
-                            <div style={{ fontWeight: 500 }}>{this.toJSONLocal(item['from'])} ~ {this.toJSONLocal(item['to'])}</div>
-                            <div style={{ fontWeight: 500 }}>Ireland</div>
-                            <div style={{ color: 'grey' }}>{item['description']}</div>
-                        </Col>
+                    <div key={index} style={{ marginBottom: 10, position: 'relative' }} >
+                        <Row>
+                            <Pencil size={25} color="#007bff" style={{ position: 'absolute', top: 10, right: 15, cursor: 'pointer', zIndex: 1000 }} onClick={() => this.editExperience(item['id'])} />
+                            <Trash size={25} color="#007bff" style={{ position: 'absolute', top: 50, right: 15, cursor: 'pointer', zIndex: 1000 }} onClick={() => this.setState({ experienceDeleteModalShow: true })} />
+                            <Col md={1} style={{ color: 'red', fontWeight: 500 }}>Quest</Col>
+                            <Col md={11}>
+                                <div style={{ fontWeight: 500 }}>{item['position']}</div>
+                                <div style={{ fontWeight: 500 }}>{item['company']}</div>
+                                <div style={{ fontWeight: 500 }}>{this.toJSONLocal(item['from'])} ~ {this.toJSONLocal(item['to'])}</div>
+                                <div style={{ fontWeight: 500 }}>Ireland</div>
+                                <div style={{ color: 'grey' }}>{item['description']}</div>
+                            </Col>
+                        </Row>
                         <Modal show={this.state.experienceDeleteModalShow} onHide={() => this.setState({ experienceDeleteModalShow: false })} style={{ marginTop: 100 }}>
                             <Modal.Header closeButton>
                                 <Modal.Title>Delete Experience</Modal.Title>
@@ -266,13 +214,13 @@ class AddExperience extends Component {
                             <Modal.Footer>
                                 <Button variant="secondary" onClick={() => this.setState({ experienceDeleteModalShow: false })}>
                                     Close
-                                                        </Button>
+                                                                        </Button>
                                 <Button variant="primary" onClick={() => this.deleteExperience(item['id'])}>
                                     Delete
-                                                        </Button>
+                                                                        </Button>
                             </Modal.Footer>
                         </Modal>
-                    </Row>
+                    </div>
                 ))
                 }
             </>

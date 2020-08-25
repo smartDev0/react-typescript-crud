@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Button, Form, Container, Alert, Tabs, Tab, Col, Row } from "react-bootstrap";
+import { Button, Form, Container, Tabs, Tab, Col, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,6 +9,7 @@ import AddExperience from '../../components/AddExperience/AddExperience';
 import AddEducation from '../../components/AddEducation/AddEducation';
 import { meApi } from '../../services/ProfileApi';
 import { skillsApi } from '../../services/ProfileApi';
+import { wholeSaveApi } from '../../services/ProfileApi';
 import { RouteComponentProps } from "react-router-dom";
 
 const Label = styled.label`
@@ -31,63 +32,64 @@ class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
     username: '',
     email: '',
     bio: '',
-    skills: [],
-    selectedOption: null,
-    saveSuccessFlag: false
+    skills: null,
   };
 
-  componentDidMount() {
+  public componentDidMount() {
     firebase.auth.onAuthStateChanged(async (authUser: any) => {
       if (authUser !== null && authUser !== undefined) {
         let token = await authUser.getIdToken();
         localStorage.setItem('token', token);
         this.setState({
           username: authUser.displayName,
-          email: authUser.email,
+          email: authUser.email
         });
       } else {
         this.props.history.push("/")
       }
     });
+    let me = JSON.parse(localStorage.getItem('me') || '{}');
+    if(Object.keys(me).length !== 0) {
+      this.setState({
+        dob: new Date(me.dob),
+        bio: me.bio,
+      })
+    }
+    let skills = JSON.parse(localStorage.getItem('skills') || '{}');
+    skills = Array.isArray(skills) ? skills : [];
+    this.setState({ skills });
   }
 
-  saveProfile = () => {
+  public saveProfile = () => {
     const user = {
       username: this.state.username,
       email: this.state.email,
       dob: this.state.dob,
       bio: this.state.bio,
     }
-    meApi(user).then(response => {
-      console.log(response);
+    meApi(user);
+    this.setState({
+      username: this.state.username,
+      email: this.state.email,
+      dob: this.state.dob,
+      bio: this.state.bio,
     })
-      .catch(error => {
-        console.log(error);
-      });
-    this.showAlert();
   }
 
-  showAlert = () => {
-    this.setState({ saveSuccessFlag: true });
-    let that = this;
-    setTimeout(function () {
-      that.setState({ saveSuccessFlag: false });
-    }, 2000);
-  }
-
-  handleSkillsChange = (selectedOption: any) => {
-    console.log(selectedOption)
-    this.setState({ selectedOption });
+  public handleSkillsChange = (skills: any) => {
+    this.setState({ skills });
   }
 
   saveSkills = () => {
-    skillsApi(this.state.skills).then(response => {
+    skillsApi(this.state.skills)
+  }
+
+  public wholeSave = () => {
+    wholeSaveApi().then(response => {
       console.log(response);
+    }).catch(error => {
+      console.log(error);
     })
-      .catch(error => {
-        console.log(error);
-      });
-    this.showAlert();
   }
 
   render() {
@@ -95,9 +97,9 @@ class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
       <div>
         <br></br>
         <Container>
-          <Alert variant="success" show={this.state.saveSuccessFlag}>
-            Succefully Saved!
-          </Alert>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant="success" onClick={() => this.wholeSave()}>Save All</Button>
+          </div>
           <Tabs defaultActiveKey="me" style={{ marginBottom: 10 }}>
             <Tab eventKey="me" title="Me">
               <Row>
@@ -146,7 +148,7 @@ class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
                   <Form.Group controlId="Skills">
                     <Form.Label>Skills</Form.Label>
                     <Select
-                      value={this.state.selectedOption}
+                      value={this.state.skills}
                       isMulti
                       name="colors"
                       className="basic-multi-select"
