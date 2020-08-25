@@ -76,6 +76,7 @@ class MyProfile extends Component<InterfaceProps & RouteComponentProps> {
   }
 
   handleSkillsChange = (selectedOption: any) => {
+    console.log(selectedOption)
     this.setState({ selectedOption });
   }
 

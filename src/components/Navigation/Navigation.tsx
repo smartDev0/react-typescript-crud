@@ -15,6 +15,7 @@ const GoRegister = styled(Link)`
 const GoHome = styled(Link)`
   color: white;
   text-decoration: none;
+  margin-right: 10px;
   &:hover {
     color: white;
     text-decoration: none;
@@ -67,8 +68,8 @@ const NavigationAuth = () => (
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
-        <Nav.Link><GoHome to="home">Home</GoHome></Nav.Link>
-        <Nav.Link><GoProfile to="profile">My profile</GoProfile></Nav.Link>
+        <GoHome to="home">Home</GoHome>
+        <GoProfile to="profile">My profile</GoProfile>
       </Nav>
       <Form inline>
         <FormControl type="text" placeholder="Search" className="mr-sm-2" />

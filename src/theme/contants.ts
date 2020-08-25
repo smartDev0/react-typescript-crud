@@ -1,9 +1,0 @@
-export const DEFAULT_BG_COLOR = "#24292b";
-export const COMPONENTS_TOOLBAR_BG_COLOR = "#32373A";
-export const OPTIONS_TOOLBAR_BG_COLOR = "#32373A";
-export const MAIN_NAVIGATION_BG_COLOR = "#3D474B";
-export const PAGE_PANEL_BG_COLOR = "#3D474B";
-export const MAIN_TEXT_COLOR = "#fff";
-export const OPTIONS_TOOLBAR_ITEM_HOVER = "#3B3E41";
-export const INPUT_BG_COLOR = "#41474b";
-export const SELECTED_BLOCK_BORDER = "#0C6FB7";

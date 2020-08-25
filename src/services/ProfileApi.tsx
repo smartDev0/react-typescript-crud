@@ -1,7 +1,10 @@
 import axios from 'axios';
+import * as interfaces from '../constants/interface';
+
 const httpHeaders = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') } };
 
-export const meApi = (user: any) => {
+
+export const meApi = (user: interfaces.User) => {
     console.log(httpHeaders);
     return axios.post(`${process.env.REACT_APP_SERVER_API}/saveMe`, {
         username: user.username,
@@ -14,7 +17,7 @@ export const meApi = (user: any) => {
         })
 }
 
-export const skillsApi = (skills: any) => {
+export const skillsApi = (skills: Array<String>) => {
     return axios.post(`${process.env.REACT_APP_SERVER_API}/saveSkills`, {
         skills: skills
     }, httpHeaders)
@@ -23,7 +26,7 @@ export const skillsApi = (skills: any) => {
         })
 }
 
-export const addExperienceApi = (experienceData: any) => {
+export const addExperienceApi = (experienceData: interfaces.Experience) => {
     // Below code is being used with localStorage
     const name = `experiences`;
     let experiences = JSON.parse(localStorage.getItem(name) || '{}');
@@ -43,7 +46,7 @@ export const addExperienceApi = (experienceData: any) => {
     //     })
 }
 
-export const deleteExperienceApi = (id: any) => {
+export const deleteExperienceApi = (id: String) => {
 
     // Below code is being used with localStorage
     const name = `experiences`;
@@ -90,7 +93,7 @@ export const editExperienceApi = (id: String) => {
     //     })
 }
 
-export const updateExperienceApi = (experienceData: any) => {
+export const updateExperienceApi = (experienceData: interfaces.Experience) => {
 
     // Below code is being used with localStorage
     const name = `experiences`;
@@ -100,8 +103,8 @@ export const updateExperienceApi = (experienceData: any) => {
         if (experiences[i].id === experienceData.id) {
             experiences[i].from = experienceData.from;
             experiences[i].to = experienceData.to;
-            experiences[i].type = experienceData.type;
-            experiences[i].institution = experienceData.institution;
+            experiences[i].company = experienceData.company;
+            experiences[i].position = experienceData.position;
             experiences[i].description = experienceData.description;
         }
     }
@@ -118,7 +121,7 @@ export const updateExperienceApi = (experienceData: any) => {
     //     })
 }
 
-export const addEducationApi = (educationData: any) => {
+export const addEducationApi = (educationData: interfaces.Education) => {
 
     // Below code is being used with localStorage
     const name = `educations`;
@@ -139,7 +142,7 @@ export const addEducationApi = (educationData: any) => {
     //     })
 }
 
-export const deleteEducationApi = (id: any) => {
+export const deleteEducationApi = (id: String) => {
 
     // Below code is being used with localStorage
     const name = `educations`;
@@ -186,7 +189,7 @@ export const editEducationApi = (id: String) => {
     //     })
 }
 
-export const updateEducationApi = (educationData: any) => {
+export const updateEducationApi = (educationData: interfaces.Education) => {
 
     // Below code is being used with localStorage
     const name = `educations`;

@@ -11,7 +11,6 @@ import { deleteEducationApi } from '../../services/ProfileApi';
 import { editEducationApi } from '../../services/ProfileApi';
 import { updateEducationApi } from '../../services/ProfileApi';
 
-
 const Label = styled.label`
   width:100%
 `;
@@ -72,7 +71,7 @@ class AddEducation extends Component {
 
             // Below code will be used with real backend
             // addEducationApi(educationData)
-            //     .then((response: any) => {
+            //     .then((response: Array<interfaces.Education>) => {
             //         console.log(response);
             //         this.setState({educations: response})
             //     })
@@ -99,7 +98,7 @@ class AddEducation extends Component {
 
             // Below code will be used with real backend
             // udateEducationApi(educationData)
-            //     .then((response: any) => {
+            //     .then((response: Array<interfaces.Education>) => {
             //         console.log(response);
             //         this.setState({educations: response})
             //     })
@@ -130,7 +129,7 @@ class AddEducation extends Component {
 
         // Below code will be used with real backend
         // deleteEducationApi(id)
-        //     .then((response: any) => {
+        //     .then((response: Array<interfaces.Education>) => {
         //         console.log(response);
         //         this.setState({educations: response})
         //     })
@@ -159,7 +158,7 @@ class AddEducation extends Component {
 
         // Below code will be used with real backend
         // editEducationApi(id)
-        //     .then((response: any) => {
+        //     .then((response: Education) => {
         //         console.log(response);
         // if(response) {
         //     this.setState({ 

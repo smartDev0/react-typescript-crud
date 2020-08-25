@@ -72,7 +72,7 @@ class AddExperience extends Component {
 
             // Below code will be used with real backend
             // addExperienceApi(experienceData)
-            //     .then((response: any) => {
+            //     .then((response: Array<interfaces.Experience>) => {
             //         console.log(response);
             //         this.setState({experiences: response})
             //     })
@@ -99,7 +99,7 @@ class AddExperience extends Component {
 
             // Below code will be used with real backend
             // udateexperienceApi(experienceData)
-            //     .then((response: any) => {
+            //     .then((response: Array<interfaces.Experience>) => {
             //         console.log(response);
             //         this.setState({experiences: response})
             //     })
@@ -130,7 +130,7 @@ class AddExperience extends Component {
 
         // Below code will be used with real backend
         // deleteExperienceApi(id)
-        //     .then((response: any) => {
+        //     .then((response: Array<interfaces.Experience>) => {
         //         console.log(response);
         //         this.setState({experiences: response})
         //     })
@@ -158,7 +158,7 @@ class AddExperience extends Component {
 
         // Below code will be used with real backend
         // editExperienceApi(id)
-        //     .then((response: any) => {
+        //     .then((response: Experience) => {
         //         console.log(response);
         // if(response) {
         //     this.setState({ 
