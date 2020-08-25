@@ -149,6 +149,11 @@ export const wholeSaveApi = () => {
     educations = Array.isArray(educations) ? educations : [];
     let skills = JSON.parse(localStorage.getItem('skills') || '{}');
     skills = Array.isArray(skills) ? skills : [];
+    let StringSkills = [];
+    for(var i=0; i<skills.length; i++) {
+        StringSkills.push(skills[i].value)
+    }
+    console.log(StringSkills);
     let wholeData = null;
     wholeData =
     {
@@ -159,7 +164,7 @@ export const wholeSaveApi = () => {
         "bio": me.bio,
         "experience": experiences,
         "educations": educations,
-        "skills": skills
+        "skills": StringSkills
     }
     return axios.post(`${process.env.REACT_APP_SERVER_API}/wholeSave`, {
         wholeData: wholeData
